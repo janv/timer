@@ -8,16 +8,16 @@ export default class Main extends React.Component {
     <DataConsumer>
       {({day}) => (
         <Container m={3}>
-          <Flex align="center">
-            {day.slices.map((slice, i) => (
-              <Input
-                key={i}
-                defaultValue={slice.title}
-                placeholder="Input"
-              />
-            ))}
-            Start
-          </Flex>
+          {day.slices.map((slice, i) => (
+            <Flex align="center" key={i}>
+                <Input
+                  defaultValue={slice.title}
+                  placeholder="Input"
+                />
+                <Input value={slice.end} readOnly/>
+                Start
+            </Flex>
+          ))}
         </Container>
       )}
     </DataConsumer>

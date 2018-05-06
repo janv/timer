@@ -1,3 +1,10 @@
+import * as moment from 'moment'
+
+function now() {
+  return  moment().format('HH:mm')
+}
+
+
 interface Slice {
   title: string
   category?: string
@@ -11,9 +18,9 @@ export interface Day {
 
 export function createDay():Day {
   return {
-    start: '',
+    start: now(),
     slices:[
-      {title: 'First Slice', end: ''}
+      {title: 'First Slice', end: now()}
     ]
   }
 }
@@ -21,7 +28,7 @@ export function createDay():Day {
 export function appendSlice(day: Day):Day {
   return {
     ...day,
-    slices: [...day.slices, {title: '', end:'now'}]
+    slices: [...day.slices, {title: 'New slice', end:now()}]
   }
 }
 
