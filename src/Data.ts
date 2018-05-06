@@ -13,7 +13,7 @@ export function createDay():Day {
   return {
     start: '',
     slices:[
-      {title: '', end: ''}
+      {title: 'First Slice', end: ''}
     ]
   }
 }
