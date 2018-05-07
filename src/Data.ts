@@ -1,7 +1,8 @@
 import * as moment from 'moment'
+import {updateIn} from './util/icepick'
 
-function now() {
-  return  moment().format('HH:mm')
+export function now() {
+  return  moment().format('HH:mm:ss')
 }
 
 
@@ -31,5 +32,10 @@ export function appendSlice(day: Day):Day {
     slices: [...day.slices, {title: 'New slice', end:now()}]
   }
 }
+
+export function updateSlice(day: Day, sliceNumber:number, update:Partial<Slice>):Day {
+  const i = sliceNumber >= 0 ? sliceNumber : day.slices.length+sliceNumber
+  return updateIn(day, ['slices', i], slice => ({...slice, ...update}))
+  }
 
 // todo running slice ist die letzte, wenn der timer weiterläuft

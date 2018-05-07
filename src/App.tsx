@@ -2,14 +2,12 @@ import * as React from 'react';
 import {Provider as StyleProvider} from 'rebass-emotion'
 import Main from './Main'
 import './App.css';
-import {Provider as BackendProvider, Backend} from './DataProvider'
 
 import logo from './logo.svg';
 
 class App extends React.Component {
   public render() {
     return (
-      <BackendProvider value={new Backend()}>
       <StyleProvider>
         <div className="App">
           <header className="App-header">
@@ -22,7 +20,6 @@ class App extends React.Component {
           </p>
         </div>
       </StyleProvider>
-      </BackendProvider>
     );
   }
 }
