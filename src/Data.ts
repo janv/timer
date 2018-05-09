@@ -12,6 +12,10 @@ interface Slice {
   end: string
 }
 
+export interface TodoItem {
+  title: string
+}
+
 export interface Day {
   start: string
   slices: Slice[]
@@ -26,10 +30,10 @@ export function createDay():Day {
   }
 }
 
-export function appendSlice(day: Day):Day {
+export function appendSlice(day: Day, title = ''):Day {
   return {
     ...day,
-    slices: [...day.slices, {title: 'New slice', end:now()}]
+    slices: [...day.slices, {title, end:now()}]
   }
 }
 
