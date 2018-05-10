@@ -6,7 +6,7 @@ export function now() {
 }
 
 
-interface Slice {
+export interface Slice {
   title: string
   category?: string
   end: string

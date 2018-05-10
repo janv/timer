@@ -4,7 +4,7 @@ import { createDay, Day, updateSlice, now, TodoItem, appendSlice } from './Data'
 import {findDOMNode} from 'react-dom'
 import {last} from 'lodash'
 
-type FocusInfo = {type: 'slice'|'todoitem', index:number}
+type FocusInfo = {type: 'slice', index:number, field:'title'|'time'} | {type: 'todoitem', index:number}
 
 interface State {
   day: Day
@@ -50,14 +50,14 @@ export default class Main extends React.Component<{}, State> {
     if (f.type === 'slice' && f.index === 0) return;
     if (f.type === 'todoitem' && f.index === 0) {
       if (this.state.day.slices.length > 0) {
-        this.setState({focus: {type: 'slice', index:this.state.day.slices.length-1}})
+        this.setState({focus: {type: 'slice', field:'title', index:this.state.day.slices.length-1}})
         return
       } else {
         return
       }
     }
     this.setState({
-      focus: {type: f.type, index: f.index-1}
+      focus: {...f, index: f.index-1}
     })
   }
 
@@ -74,7 +74,7 @@ export default class Main extends React.Component<{}, State> {
       }
     }
     this.setState({
-      focus: {type: f.type, index: f.index+1}
+      focus: {...f, index: f.index+1}
     })
   }
 
