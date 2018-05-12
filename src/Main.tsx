@@ -1,21 +1,23 @@
 import * as React from 'react'
-import {Divider, Container} from 'rebass-emotion'
-import { createDay, Slice as ISlice, TodoItem as ITodoItem } from './Data';
+import {Divider, Container, Flex, Button} from 'rebass-emotion'
+import { Slice as ISlice, TodoItem as ITodoItem } from './Data';
 import Slice from './Slice'
 import TodoItem from './TodoItem'
-import { handleFocusUp, handleFocusDown, handleFocusSlice, handleFocusTodo, handleCreateSliceFromTodo, handleDeleteSlice, handleChangeSlice, handleChangeTodoItem, State } from './State';
+import { handleFocusUp, handleFocusDown, handleFocusSlice, handleFocusTodo, handleCreateSliceFromTodo, handleDeleteSlice, handleChangeSlice, handleChangeTodoItem, State, createDefaultState } from './State';
+import { debounce } from 'lodash';
 
 export default class Main extends React.Component<{}, State> {
-  state:State = {
-    day: createDay(),
-    todos: [{title: 'Standup'}, {title: 'Lunch'}],
-    focus: {type: 'todoitem', index: 0}
-  }
+  state:State = createDefaultState()
 
   render() {
     const focus = this.state.focus
     return (
       <Container m={3}>
+        <Flex>
+          <Button onClick={this.handleLoad}>Load</Button>
+          <Button onClick={this.handleSave}>Save</Button>
+          <Button onClick={this.handleReset}>Reset</Button>
+        </Flex>
         {this.state.day.slices.map((slice, i) => (
           <Slice
             slice={slice}
@@ -43,6 +45,43 @@ export default class Main extends React.Component<{}, State> {
         ))}
       </Container>
     )
+  }
+
+  componentDidMount() {
+    this.loadState()
+  }
+
+  componentDidUpdate(prevProps:{}, prevState:State) {
+    if (prevState !== this.state) {
+      this.saveState()
+    }
+  }
+
+  loadState() {
+    const jsonSate = window.localStorage.getItem('timerState');
+
+    try {
+      const state:State = JSON.parse(jsonSate!)
+      this.setState(state)
+    } catch (e) {
+      this.setState(createDefaultState())
+    }
+  }
+
+  saveState = debounce(() => {
+    window.localStorage.setItem('timerState', JSON.stringify(this.state))
+  }, 300)
+
+  handleLoad = () => {
+    this.loadState()
+  }
+
+  handleSave = () => {
+    this.saveState()
+  }
+
+  handleReset = () => {
+    this.setState(createDefaultState())
   }
 
   handleFocusUp = () => {

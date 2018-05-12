@@ -1,6 +1,6 @@
 // import { setIn, splice } from './util/icepick';
 // import { createDay, Day, Slice as ISlice, TodoItem as ITodoItem, appendSlice } from './Data';
-import { Day, TodoItem as ITodoItem, TodoItem, Slice, appendSlice } from './Data';
+import { Day, TodoItem as ITodoItem, TodoItem, Slice, appendSlice, createDay } from './Data';
 import { setIn, splice } from './util/icepick';
 
 export type FocusInfo = {type: 'slice', index:number, field:'title'|'time'} | {type: 'todoitem', index:number}
@@ -9,6 +9,14 @@ export interface State {
   day: Day
   todos: ITodoItem[]
   focus: FocusInfo
+}
+
+export function createDefaultState():State {
+  return {
+    day: createDay(),
+    todos: [{title: 'Standup'}, {title: 'Lunch'}],
+    focus: {type: 'todoitem', index: 0}
+  }
 }
 
 export function handleFocusUp(state:State) {
