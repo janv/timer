@@ -3,7 +3,7 @@ import {Divider, Container} from 'rebass-emotion'
 import { createDay, Day, Slice as ISlice, TodoItem as ITodoItem, appendSlice } from './Data';
 import Slice from './Slice'
 import TodoItem from './TodoItem'
-import { setIn } from './util/icepick';
+import { setIn, splice } from './util/icepick';
 
 export type FocusInfo = {type: 'slice', index:number, field:'title'|'time'} | {type: 'todoitem', index:number}
 
@@ -109,6 +109,7 @@ export default class Main extends React.Component<{}, State> {
             onFocusUp={this.handleFocusUp}
             onFocusFieldChange={this.handleFocusSlice}
             onChange={this.handleChangeSlice}
+            onDelete={this.handleDeleteSlice}
             />
         ))}
         <Divider/>
@@ -152,6 +153,13 @@ export default class Main extends React.Component<{}, State> {
   handleChangeSlice = (slice:ISlice) => {
     this.setState({
       day: setIn(this.state.day, ['slices', this.state.focus.index], slice)
+    })
+  }
+
+  handleDeleteSlice = (slice:ISlice) => {
+    const i = this.state.day.slices.indexOf(slice)
+    this.setState({
+      day: setIn(this.state.day, ['slices'], splice(this.state.day.slices, i, 1))
     })
   }
 

@@ -1,6 +1,6 @@
 import {findDOMNode} from 'react-dom';
 import * as React from "react";
-import {Input, Flex} from 'rebass-emotion'
+import {Input, Flex, Button} from 'rebass-emotion'
 import {Slice as ISlice} from './Data'
 
 type Props = {
@@ -10,6 +10,7 @@ type Props = {
   onFocusDown: () => void
   onFocusFieldChange: (slice:ISlice, field:'title'|'time') => void
   onChange: (slice: ISlice) => void
+  onDelete: (slice: ISlice) => void
 }
 
 export default class Slice extends React.Component<Props> {
@@ -64,6 +65,7 @@ export default class Slice extends React.Component<Props> {
               onFocus={this.handleFocusTime}
               onChange={this.handleChangeTime}
             />
+            <Button onClick={this.handleDelete}>X</Button>
         </Flex>
     )
   }
@@ -90,6 +92,10 @@ export default class Slice extends React.Component<Props> {
 
   handleChangeTime = (e:React.ChangeEvent<HTMLInputElement>) => {
     this.props.onChange({...this.props.slice, end: e.currentTarget.value})
+  }
+
+  handleDelete = () => {
+    this.props.onDelete(this.props.slice)
   }
 
 }
