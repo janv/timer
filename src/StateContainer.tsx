@@ -1,13 +1,22 @@
 import * as React from 'react'
-import { Slice as ISlice, TodoItem as ITodoItem } from './Data';
-import { handleFocusUp, handleFocusDown, handleFocusSlice, handleFocusTodo, handleCreateSliceFromTodo, handleDeleteSlice, handleChangeSlice, handleChangeTodoItem, State as PersistedState, createDefaultState } from './State';
+import { Slice as ISlice, TodoItem as ITodoItem, Day } from './Data';
+import { handleFocusUp, handleFocusDown, handleFocusSlice, handleFocusTodo, handleCreateSliceFromTodo, handleDeleteSlice, handleChangeSlice, handleChangeTodoItem, createDefaultState } from './State';
 import { debounce } from 'lodash';
 import {omit} from 'lodash'
 
 export type Handlers = StateContainer['handlers']
 
+export type FocusInfo = {type: 'slice', index:number, field:'title'|'time'} | {type: 'todoitem', index:number}
+
+export interface PersistedState {
+  days: { [date: string]: Day }
+  todos: ITodoItem[]
+  focus: FocusInfo
+}
+
 export interface State extends PersistedState {
   lastSaved?: Date
+  currentDay: Day
 }
 
 interface Props {

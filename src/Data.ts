@@ -21,12 +21,15 @@ export interface Day {
   slices: Slice[]
 }
 
-export function createDay():Day {
+export function createDays():{[day:string]: Day} {
+  const today = moment().format('YYYY-MM-DD')
   return {
-    start: now(),
-    slices:[
-      {title: 'First Slice', end: now()}
-    ]
+    [today]: {
+      start: now(),
+      slices:[
+        {title: 'First Slice', end: now()}
+      ]
+    }
   }
 }
 

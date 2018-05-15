@@ -1,19 +1,14 @@
-// import { setIn, splice } from './util/icepick';
-// import { createDay, Day, Slice as ISlice, TodoItem as ITodoItem, appendSlice } from './Data';
-import { Day, TodoItem as ITodoItem, TodoItem, Slice, appendSlice, createDay } from './Data';
+import { TodoItem as ITodoItem, TodoItem, Slice, appendSlice, createDays } from './Data';
 import { setIn, splice } from './util/icepick';
+import { State, FocusInfo } from './StateContainer';
+import { findKey } from 'lodash';
 
-export type FocusInfo = {type: 'slice', index:number, field:'title'|'time'} | {type: 'todoitem', index:number}
-
-export interface State {
-  day: Day
-  todos: ITodoItem[]
-  focus: FocusInfo
-}
 
 export function createDefaultState():State {
+  const days = createDays()
   return {
-    day: createDay(),
+    days,
+    currentDay: Object.values(days)[0],
     todos: [{title: 'Standup'}, {title: 'Lunch'}],
     focus: {type: 'todoitem', index: 0}
   }
@@ -23,9 +18,9 @@ export function handleFocusUp(state:State) {
   const f = state.focus
   if (f.type === 'slice' && f.index === 0) return null;
   if (f.type === 'todoitem' && f.index === 0) {
-    if (state.day.slices.length > 0) {
+    if (state.currentDay.slices.length > 0) {
       return ({
-        focus: {type: 'slice', field:'title', index:state.day.slices.length-1}
+        focus: {type: 'slice', field:'title', index:state.currentDay.slices.length-1}
       } as Pick<State, 'focus'>)
     } else {
       return null
@@ -44,7 +39,7 @@ export function handleFocusDown(state:State):Pick<State, never>|null {
       }
       return createNewTodo(state)
     };
-    if (f.type === 'slice' && f.index === state.day.slices.length-1) {
+    if (f.type === 'slice' && f.index === state.currentDay.slices.length-1) {
       // coming from the slices, want to go down into the todos
       let newState = {};
       if (state.todos.length === 0) {
@@ -69,7 +64,7 @@ function createNewTodo(state:State) {
 function getCurrentFocusItem(state:State):TodoItem|Slice {
   const f = state.focus
   if (f.type === 'slice') {
-    return state.day.slices[f.index]
+    return state.currentDay.slices[f.index]
   } else {
     return state.todos[f.index]
   }
@@ -78,13 +73,13 @@ function getCurrentFocusItem(state:State):TodoItem|Slice {
 export function handleFocusSlice(slice: Slice, field: 'time'|'title') {
   return (state:State) => {
     const f = state.focus
-    if (f.type === 'slice' && state.day.slices[f.index] === slice && f.field === field) {
+    if (f.type === 'slice' && state.currentDay.slices[f.index] === slice && f.field === field) {
       return null
     }
     return({
         focus: {
           type: 'slice',
-          index: state.day.slices.indexOf(slice),
+          index: state.currentDay.slices.indexOf(slice),
           field
         }
     } as Pick<State, 'focus'>)
@@ -104,7 +99,12 @@ export function handleFocusTodo(todo: ITodoItem) {
 }
 
 export function handleCreateSliceFromTodo(todo:TodoItem) {
-  return (state:State) => {
+  return (state:State):State => {
+    const currentDate:string|undefined = findKey(state.days, state.currentDay)
+    if (currentDate === undefined) {
+      throw new Error('Current day not found in days')
+    }
+
     let todos = state.todos.filter(t => t !== todo)
     todos = todos.length > 0 ? todos : [{title: ''}]
 
@@ -112,8 +112,14 @@ export function handleCreateSliceFromTodo(todo:TodoItem) {
       ? state.focus
       : {type: 'todoitem', index: todos.length-1}
 
+    const day = appendSlice(state.currentDay, todo.title)
+
     return ({
-      day: appendSlice(state.day, todo.title),
+      days: {
+        ...state.days,
+        [currentDate]: day
+      },
+      currentDay: day,
       todos,
       focus
     })
@@ -129,18 +135,18 @@ export function handleChangeTodoItem(todo: ITodoItem) {
 }
 
 export function handleChangeSlice(slice:Slice) {
-  return (state:State) => {
+  return (state:State):Pick<State, never> => {
     return ({
-      day: setIn(state.day, ['slices', state.focus.index], slice)
+      day: setIn(state.currentDay, ['slices', state.focus.index], slice)
     })
   }
 }
 
 export function handleDeleteSlice(slice:Slice) {
-  return (state:State) => {
-    const i = state.day.slices.indexOf(slice)
+  return (state:State):Pick<State, never> => {
+    const i = state.currentDay.slices.indexOf(slice)
     return ({
-      day: setIn(state.day, ['slices'], splice(state.day.slices, i, 1))
+      day: setIn(state.currentDay, ['slices'], splice(state.currentDay.slices, i, 1))
     })
   }
 }

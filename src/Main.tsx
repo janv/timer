@@ -22,7 +22,7 @@ export default class Main extends React.Component<Props> {
           <Button onClick={handlers.reset}>Reset</Button>
           <LastSaved lastSaved={state.lastSaved}/>
         </Flex>
-        {state.day.slices.map((slice, i) => (
+        {state.currentDay.slices.map((slice, i) => (
           <Slice
             slice={slice}
             key={i}
