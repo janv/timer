@@ -1,11 +1,14 @@
 import * as React from 'react'
 import { Slice as ISlice, TodoItem as ITodoItem } from './Data';
-import { handleFocusUp, handleFocusDown, handleFocusSlice, handleFocusTodo, handleCreateSliceFromTodo, handleDeleteSlice, handleChangeSlice, handleChangeTodoItem, State, createDefaultState } from './State';
+import { handleFocusUp, handleFocusDown, handleFocusSlice, handleFocusTodo, handleCreateSliceFromTodo, handleDeleteSlice, handleChangeSlice, handleChangeTodoItem, State as PersistedState, createDefaultState } from './State';
 import { debounce } from 'lodash';
+import {omit} from 'lodash'
 
 export type Handlers = StateContainer['handlers']
 
-export type State = State
+export interface State extends PersistedState {
+  lastSaved?: Date
+}
 
 interface Props {
   children: (state:State, handlers:Handlers) => JSX.Element
@@ -33,7 +36,7 @@ export default class StateContainer extends React.Component<Props, State> {
     const jsonSate = window.localStorage.getItem('timerState');
 
     try {
-      const state:State = JSON.parse(jsonSate!)
+      const state:PersistedState = JSON.parse(jsonSate!)
       this.setState(state)
     } catch (e) {
       this.setState(createDefaultState())
@@ -41,7 +44,11 @@ export default class StateContainer extends React.Component<Props, State> {
   }
 
   saveState = debounce(() => {
-    window.localStorage.setItem('timerState', JSON.stringify(this.state))
+    const pState = omit(this.state, 'lastSaved') as PersistedState
+    window.localStorage.setItem('timerState', JSON.stringify(pState))
+    this.setState({
+      lastSaved: new Date()
+    })
   }, 300)
 
   private handlers = {

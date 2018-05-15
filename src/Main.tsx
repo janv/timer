@@ -3,6 +3,7 @@ import {Divider, Container, Flex, Button} from 'rebass-emotion'
 import Slice from './Slice'
 import TodoItem from './TodoItem'
 import { Handlers, State } from './StateContainer';
+import LastSaved from './LastSaved'
 
 interface Props {
   handlers: Handlers
@@ -19,6 +20,7 @@ export default class Main extends React.Component<Props> {
           <Button onClick={handlers.load}>Load</Button>
           <Button onClick={handlers.save}>Save</Button>
           <Button onClick={handlers.reset}>Reset</Button>
+          <LastSaved lastSaved={state.lastSaved}/>
         </Flex>
         {state.day.slices.map((slice, i) => (
           <Slice
