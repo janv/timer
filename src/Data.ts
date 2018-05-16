@@ -17,20 +17,7 @@ export interface TodoItem {
 }
 
 export interface Day {
-  start: string
   slices: Slice[]
-}
-
-export function createDays():{[day:string]: Day} {
-  const today = moment().format('YYYY-MM-DD')
-  return {
-    [today]: {
-      start: now(),
-      slices:[
-        {title: 'First Slice', end: now()}
-      ]
-    }
-  }
 }
 
 export function appendSlice(day: Day, title = ''):Day {

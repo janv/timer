@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Slice as ISlice, TodoItem as ITodoItem, Day } from './Data';
-import { handleFocusUp, handleFocusDown, handleFocusSlice, handleFocusTodo, handleCreateSliceFromTodo, handleDeleteSlice, handleChangeSlice, handleChangeTodoItem, createDefaultState } from './State';
+import { focusUp, focusDown, focusSlice, focusTodo, createSliceFromTodo, deleteSlice, changeSlice, changeTodoItem, createDefaultState, changeDate } from './State';
 import { debounce } from 'lodash';
 import {omit} from 'lodash'
 
@@ -16,7 +16,7 @@ export interface PersistedState {
 
 export interface State extends PersistedState {
   lastSaved?: Date
-  currentDay: Day
+  date: string
 }
 
 interface Props {
@@ -74,35 +74,39 @@ export default class StateContainer extends React.Component<Props, State> {
     },
 
     focusUp: () => {
-      this.setState(handleFocusUp)
+      this.setState(focusUp)
     },
 
     focusDown: () => {
-      this.setState(handleFocusDown)
+      this.setState(focusDown)
     },
 
     focusSlice: (slice: ISlice, field: 'time'|'title') => {
-      this.setState(handleFocusSlice(slice, field))
+      this.setState(focusSlice(slice, field))
     },
 
     focusTodo: (todo: ITodoItem) => {
-      this.setState(handleFocusTodo(todo))
+      this.setState(focusTodo(todo))
     },
 
     createSliceFromTodo: (todo:ITodoItem) => {
-      this.setState(handleCreateSliceFromTodo(todo))
+      this.setState(createSliceFromTodo(todo))
     },
 
     changeTodoItem: (todo: ITodoItem) => {
-      this.setState(handleChangeTodoItem(todo))
+      this.setState(changeTodoItem(todo))
     },
 
     changeSlice: (slice:ISlice) => {
-      this.setState(handleChangeSlice(slice))
+      this.setState(changeSlice(slice))
     },
 
     deleteSlice: (slice:ISlice) => {
-      this.setState(handleDeleteSlice(slice))
+      this.setState(deleteSlice(slice))
+    },
+
+    changeDate: (date:string) => {
+      this.setState(changeDate(date))
     }
   }
 

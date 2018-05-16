@@ -4,6 +4,7 @@ import Slice from './Slice'
 import TodoItem from './TodoItem'
 import { Handlers, State } from './StateContainer';
 import LastSaved from './LastSaved'
+import DatePicker from './DatePicker'
 
 interface Props {
   handlers: Handlers
@@ -14,6 +15,7 @@ export default class Main extends React.Component<Props> {
   render() {
     const {handlers, state} = this.props
     const focus = state.focus
+    const currentDay = state.days[state.date]
     return (
       <Container m={3}>
         <Flex>
@@ -22,7 +24,10 @@ export default class Main extends React.Component<Props> {
           <Button onClick={handlers.reset}>Reset</Button>
           <LastSaved lastSaved={state.lastSaved}/>
         </Flex>
-        {state.currentDay.slices.map((slice, i) => (
+        <Divider/>
+        <DatePicker value={state.date} onChange={handlers.changeDate}/>
+        <Divider/>
+        {currentDay.slices.map((slice, i) => (
           <Slice
             slice={slice}
             key={i}
