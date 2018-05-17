@@ -85,12 +85,12 @@ export default class Slice extends React.Component<Props> {
     if (e.key === 'ArrowUp') {
       this.props.onChange({
         ...this.props.slice,
-        end: increment(this.props.slice.end, 5)
+        end: increment(this.props.slice.end, -5)
       })
     } else if (e.key === 'ArrowDown') {
       this.props.onChange({
         ...this.props.slice,
-        end: increment(this.props.slice.end, -5)
+        end: increment(this.props.slice.end, 5)
       })
     } else if (e.key === 'Tab') {
       e.preventDefault()
