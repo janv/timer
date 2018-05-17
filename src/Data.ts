@@ -2,9 +2,16 @@ import * as moment from 'moment'
 import {updateIn} from './util/icepick'
 
 export function now() {
-  return  moment().format('HH:mm:ss')
+  return  moment().format('HH:mm')
 }
 
+export function increment(time:string, inc:-5|5) {
+  const currentDate = moment().format('YYYY-MM-DD')
+  const m = moment(currentDate + ' ' + time)
+  const minutes = m.get('minutes')
+  m.add(inc - minutes % 5, 'minutes')
+  return m.format('HH:mm')
+}
 
 export interface Slice {
   title: string

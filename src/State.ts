@@ -1,5 +1,5 @@
 import { TodoItem as ITodoItem, TodoItem, Slice, appendSlice, Day } from './Data';
-import { setIn, splice } from './util/icepick';
+import { setIn, splice, updateIn, sort } from './util/icepick';
 import { State, FocusInfo } from './StateContainer';
 import * as moment from 'moment';
 

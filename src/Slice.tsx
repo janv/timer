@@ -1,7 +1,7 @@
 import {findDOMNode} from 'react-dom';
 import * as React from "react";
 import {Input, Flex, Button} from 'rebass-emotion'
-import {Slice as ISlice} from './Data'
+import {Slice as ISlice, increment} from './Data'
 
 type Props = {
   slice: ISlice
@@ -72,9 +72,15 @@ export default class Slice extends React.Component<Props> {
 
   handleKeyDown = (e:React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'ArrowUp') {
-      this.props.onFocusUp()
+      this.props.onChange({
+        ...this.props.slice,
+        end: increment(this.props.slice.end, 5)
+      })
     } else if (e.key === 'ArrowDown') {
-      this.props.onFocusDown()
+      this.props.onChange({
+        ...this.props.slice,
+        end: increment(this.props.slice.end, -5)
+      })
     }
   }
 
