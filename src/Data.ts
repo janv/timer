@@ -2,7 +2,16 @@ import * as moment from 'moment'
 import {updateIn} from './util/icepick'
 
 export function now() {
-  return  moment().format('HH:mm')
+  const m = moment()
+  const mod = m.minutes() % 5
+  if (mod == 0) {
+    // do nothing
+  } else if (mod < 3 ) {
+    m.subtract(mod, 'minutes')
+  } else {
+    m.add(5-mod, 'minutes')
+  }
+  return  m.format('HH:mm')
 }
 
 export function increment(time:string, inc:-5|5) {
