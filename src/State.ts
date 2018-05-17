@@ -1,7 +1,8 @@
 import { TodoItem as ITodoItem, TodoItem, Slice, appendSlice, Day } from './Data';
-import { setIn, splice } from './util/icepick';
+import { setIn, splice} from './util/icepick';
 import { State, FocusInfo } from './StateContainer';
 import * as moment from 'moment';
+import { sortBy, isEqual } from 'lodash';
 
 
 export function createDefaultState():State {
@@ -140,12 +141,44 @@ export function changeTodoItem(todo: ITodoItem) {
   }
 }
 
-export function changeSlice(slice:Slice) {
+export function sortSlices(state:State):State {
+  const currentDay = state.days[state.date]
+  const slices = currentDay.slices
+  const sortedSlices = sortBy<Slice>(slices, s => s.end)
+
+  if (isEqual(slices, sortedSlices)) {
+    return state
+  } else {
+    const focusItem = getCurrentFocusItem(state)
+    const focussedSlice = 'end' in focusItem ? focusItem : null
+    const focus:FocusInfo = focussedSlice
+      ?  {...state.focus, index: sortedSlices.indexOf(focussedSlice)}
+      : state.focus
+
+    return {
+      ...state,
+      days: {
+        ...state.days,
+        [state.date]: { ...currentDay, slices: sortedSlices }
+      },
+      focus
+    }
+  }
+
+}
+
+export function replaceFocussedSlice(slice:Slice) {
   return (state:State):State => {
-    return ({
+    const focussedSlice = getCurrentFocusItem(state)
+    if (!('end' in focussedSlice)) throw new Error('no slice focussed')
+    state = ({
       ...state,
       days: setIn(state.days, [state.date, 'slices', state.focus.index], slice)
     })
+    if (focussedSlice.end !== slice.end) {
+      state = sortSlices(state)
+    }
+    return state
   }
 }
 
@@ -177,7 +210,6 @@ export function changeDate(date:string) {
       return {
         ...state,
         date,
-        days: state.days,
       }
     }
 

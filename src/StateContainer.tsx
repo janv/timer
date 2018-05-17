@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Slice as ISlice, TodoItem as ITodoItem, Day } from './Data';
-import { focusUp, focusDown, focusSlice, focusTodo, createSliceFromTodo, deleteSlice, changeSlice, changeTodoItem, createDefaultState, changeDate } from './State';
+import { focusUp, focusDown, focusSlice, focusTodo, createSliceFromTodo, deleteSlice, replaceFocussedSlice, changeTodoItem, createDefaultState, changeDate } from './State';
 import { debounce } from 'lodash';
 import {omit} from 'lodash'
 
@@ -98,7 +98,7 @@ export default class StateContainer extends React.Component<Props, State> {
     },
 
     changeSlice: (slice:ISlice) => {
-      this.setState(changeSlice(slice))
+      this.setState(replaceFocussedSlice(slice))
     },
 
     deleteSlice: (slice:ISlice) => {
