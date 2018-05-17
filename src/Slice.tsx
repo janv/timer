@@ -54,14 +54,14 @@ export default class Slice extends React.Component<Props> {
               ref={this.titleRef}
               value={this.props.slice.title}
               placeholder="Input"
-              onKeyDown={this.handleKeyDown}
+              onKeyDown={this.handleKeyDownTitle}
               onFocus={this.handleFocusTitle}
               onChange={this.handleChangeTitle}
             />
             <Input
               ref={this.timeRef}
               value={this.props.slice.end}
-              onKeyDown={this.handleKeyDown}
+              onKeyDown={this.handleKeyDownTime}
               onFocus={this.handleFocusTime}
               onChange={this.handleChangeTime}
             />
@@ -70,7 +70,18 @@ export default class Slice extends React.Component<Props> {
     )
   }
 
-  handleKeyDown = (e:React.KeyboardEvent<HTMLInputElement>) => {
+  handleKeyDownTitle = (e:React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'ArrowUp') {
+      this.props.onFocusUp()
+    } else if (e.key === 'ArrowDown') {
+      this.props.onFocusDown()
+    } else if (e.key === 'Tab') {
+      e.preventDefault()
+      this.props.onFocusFieldChange(this.props.slice, 'time')
+    }
+  }
+
+  handleKeyDownTime = (e:React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'ArrowUp') {
       this.props.onChange({
         ...this.props.slice,
@@ -81,6 +92,9 @@ export default class Slice extends React.Component<Props> {
         ...this.props.slice,
         end: increment(this.props.slice.end, -5)
       })
+    } else if (e.key === 'Tab') {
+      e.preventDefault()
+      this.props.onFocusFieldChange(this.props.slice, 'title')
     }
   }
 
