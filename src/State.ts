@@ -8,7 +8,7 @@ import { sortBy, isEqual } from 'lodash';
 export function createDefaultState():State {
   const today = moment().format('YYYY-MM-DD')
   const day:Day = {
-    slices: [{title: 'First Slice', end: moment().format('HH:mm')}]
+    slices: [{title: 'First Slice', end: moment().format('HH:mm'), tags:[]}]
   }
   return {
     days: {[today]: day},

@@ -2,13 +2,14 @@ import {findDOMNode} from 'react-dom';
 import * as React from "react";
 import {Input, Flex, Button} from 'rebass-emotion'
 import {Slice as ISlice, increment} from './Data'
+import TagInput from './TagInput';
 
 type Props = {
   slice: ISlice
-  focus?: 'title'|'time'
+  focus?: 'title'|'time'|'tags'
   onFocusUp: () => void
   onFocusDown: () => void
-  onFocusFieldChange: (slice:ISlice, field:'title'|'time') => void
+  onFocusFieldChange: (slice:ISlice, field:'title'|'time'|'tags') => void
   onChange: (slice: ISlice) => void
   onDelete: (slice: ISlice) => void
 }
@@ -20,6 +21,8 @@ export default class Slice extends React.Component<Props> {
         this.focusTitle()
       } else if (this.props.focus === 'time') {
         this.focusTime()
+      } else if (this.props.focus === 'tags') {
+        this.focusTags()
       } else {
         // no focus
       }
@@ -44,8 +47,13 @@ export default class Slice extends React.Component<Props> {
     element.focus()
   }
 
+  focusTags() {
+    this.tagsRef.current!.focus()
+  }
+
   titleRef = React.createRef<React.ReactInstance>()
   timeRef  = React.createRef<React.ReactInstance>()
+  tagsRef  = React.createRef<TagInput>()
 
   render() {
     return (
@@ -65,6 +73,13 @@ export default class Slice extends React.Component<Props> {
               onFocus={this.handleFocusTime}
               onChange={this.handleChangeTime}
             />
+            <TagInput
+              tags={this.props.slice.tags}
+              onChange={this.handleChangeTags}
+              onFocus={this.handleFocusTags}
+              onKeyDown={this.handleKeyDownTags}
+              ref={this.tagsRef}
+            />
             <Button onClick={this.handleDelete}>X</Button>
         </Flex>
     )
@@ -81,6 +96,17 @@ export default class Slice extends React.Component<Props> {
     }
   }
 
+  handleKeyDownTags = (e:React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'ArrowUp') {
+      this.props.onFocusUp()
+    } else if (e.key === 'ArrowDown') {
+      this.props.onFocusDown()
+    // } else if (e.key === 'Tab') {
+    //   e.preventDefault()
+    //   this.props.onFocusFieldChange(this.props.slice, 'title')
+    }
+  }
+
   handleKeyDownTime = (e:React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'ArrowUp') {
       this.props.onChange({
@@ -94,7 +120,7 @@ export default class Slice extends React.Component<Props> {
       })
     } else if (e.key === 'Tab') {
       e.preventDefault()
-      this.props.onFocusFieldChange(this.props.slice, 'title')
+      this.props.onFocusFieldChange(this.props.slice, 'tags')
     }
   }
 
@@ -106,12 +132,20 @@ export default class Slice extends React.Component<Props> {
     this.props.onFocusFieldChange(this.props.slice, 'time')
   }
 
+  handleFocusTags = () => {
+    this.props.onFocusFieldChange(this.props.slice, 'tags')
+  }
+
   handleChangeTitle = (e:React.ChangeEvent<HTMLInputElement>) => {
     this.props.onChange({...this.props.slice, title: e.currentTarget.value})
   }
 
   handleChangeTime = (e:React.ChangeEvent<HTMLInputElement>) => {
     this.props.onChange({...this.props.slice, end: e.currentTarget.value})
+  }
+
+  handleChangeTags = (tags: string[]) => {
+    this.props.onChange({...this.props.slice, tags})
   }
 
   handleDelete = () => {

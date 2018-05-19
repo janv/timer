@@ -26,6 +26,7 @@ export interface Slice {
   title: string
   category?: string
   end: string
+  tags: string[]
 }
 
 export interface TodoItem {
@@ -39,7 +40,7 @@ export interface Day {
 export function appendSlice(day: Day, title = ''):Day {
   return {
     ...day,
-    slices: [...day.slices, {title, end:now()}]
+    slices: [...day.slices, {title, end:now(), tags: []}]
   }
 }
 
