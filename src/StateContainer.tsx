@@ -33,6 +33,11 @@ export default class StateContainer extends React.Component<Props, State> {
 
   componentDidMount() {
     this.loadState()
+    window.addEventListener('storage', this.handleStorageEvent);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('storage', this.handleStorageEvent);
   }
 
   componentDidUpdate(prevProps:{}, prevState:State) {
@@ -59,6 +64,12 @@ export default class StateContainer extends React.Component<Props, State> {
       lastSaved: new Date()
     })
   }, 300)
+
+  handleStorageEvent = (e:StorageEvent) => {
+    if (e.key === 'timerState') {
+      this.loadState()
+    }
+  }
 
   private handlers = {
     load: () => {
