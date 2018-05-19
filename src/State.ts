@@ -120,7 +120,7 @@ export function createSliceFromTodo(todo:TodoItem) {
       ? state.focus
       : {type: 'todoitem', index: todos.length-1}
 
-    return ({
+    return sortSlices({
       days: {
         ...state.days,
         [state.date]: appendSlice(currentDay, todo.title)
