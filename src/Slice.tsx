@@ -101,9 +101,9 @@ export default class Slice extends React.Component<Props> {
       this.props.onFocusUp()
     } else if (e.key === 'ArrowDown') {
       this.props.onFocusDown()
-    // } else if (e.key === 'Tab') {
-    //   e.preventDefault()
-    //   this.props.onFocusFieldChange(this.props.slice, 'title')
+    } else if (e.key === 'Tab') {
+      e.preventDefault()
+      this.props.onFocusFieldChange(this.props.slice, 'title')
     }
   }
 

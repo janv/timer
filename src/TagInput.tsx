@@ -1,6 +1,19 @@
 import * as React from "react";
 import * as TagsInput from 'react-tagsinput'
-import { findDOMNode } from "react-dom";
+import { RenderInputProps } from "react-tagsinput";
+import 'react-tagsinput/react-tagsinput.css' // If using WebPack and style-loader.
+import TagSuggest from "./TagSuggest";
+
+const SUGGESTIONS = [
+  'type:dev',
+  'type:team-lead',
+  'type:admin',
+  'source:project',
+  'source:slack-time',
+  'source:bug',
+  'source:peer',
+  'source:mgmt',
+]
 
 const EMPTY_TAGS:string[] = []
 
@@ -18,24 +31,26 @@ export default class TagInput extends React.Component<Props> {
         <TagsInput
           value={this.props.tags || EMPTY_TAGS}
           onChange={this.handleChange}
+          renderInput={this.renderInput}
+          ref={this.inputRef}
           inputProps={{
             onFocus: this.handleFocus,
-            ref: this.inputRef,
           }}
           />
       </div>
     )
   }
 
-  inputRef  = React.createRef<React.ReactInstance>()
+  inputRef = React.createRef<TagsInput>()
 
   focus() {
-    const element = findDOMNode(this.inputRef.current!) as HTMLInputElement
-    element.focus()
+    this.inputRef.current!.focus()
   }
 
   handleKeyDownTags = (e:React.KeyboardEvent<HTMLDivElement>) => {
-    this.props.onKeyDown(e)
+    if (!e.isDefaultPrevented()) {
+      this.props.onKeyDown(e)
+    }
   }
 
   handleFocus = (e:React.FocusEvent<HTMLInputElement>) => {
@@ -44,6 +59,16 @@ export default class TagInput extends React.Component<Props> {
 
   handleChange = (tags: string[], changed: string[], indexes: number[]) => {
     this.props.onChange(tags)
+  }
+
+  renderInput = (props:RenderInputProps) => {
+    return <TagSuggest
+      tags={SUGGESTIONS}
+      value={props.value}
+      onChange={props.onChange}
+      addTag={props.addTag}
+      ref={props.ref}
+    />
   }
 
 }
