@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as AutoComplete from 'react-autocomplete'
-import {Input} from 'rebass-emotion'
-import { findDOMNode } from "react-dom";
+import {Input} from 'rebass'
 
 interface WithApi extends AutoComplete {
   focus():void
@@ -22,14 +21,12 @@ export default class TagSuggest extends React.Component<Props> {
 
   focus() {
     const as = this.autoCompleteRef.current as WithApi
-    const input = findDOMNode(as) as HTMLInputElement
-    input.focus()
+    as.focus()
   }
 
   blur() {
     const as = this.autoCompleteRef.current as WithApi
-    const input = findDOMNode(as) as HTMLInputElement
-    input.blur()
+    as.blur()
   }
 
   render() {

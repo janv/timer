@@ -1,0 +1,11 @@
+patch-package
+--- a/node_modules/patch-package/dist/makePatch.js
++++ b/node_modules/patch-package/dist/makePatch.js
+@@ -91,6 +91,7 @@ function makePatch(packageName, appPath, packageManager, includePaths, excludePa
+             "diff",
+             "--cached",
+             "--ignore-space-at-eol",
++            "--no-ext-diff"
+         ]).stdout.toString();
+         if (patch.trim() === "") {
+             console.warn("\u2049\uFE0F  Not creating patch file for package '" + packageName + "'");

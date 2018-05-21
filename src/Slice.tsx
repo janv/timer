@@ -1,6 +1,7 @@
 import {findDOMNode} from 'react-dom';
 import * as React from "react";
-import {Input, Flex, Button} from 'rebass-emotion'
+import {Input, Button} from 'rebass'
+import {Flex} from 'grid-styled'
 import {Slice as ISlice, increment} from './Data'
 import TagInput from './TagInput';
 

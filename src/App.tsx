@@ -1,9 +1,9 @@
 import * as React from 'react';
-import {Provider as StyleProvider} from 'rebass-emotion'
+import {Provider as StyleProvider} from 'rebass'
 import Main from './Main'
 import './App.css';
 import StateContainer from './StateContainer'
-import {injectGlobal} from 'emotion'
+import {injectGlobal} from 'styled-components'
 
 import logo from './logo.svg';
 

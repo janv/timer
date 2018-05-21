@@ -1,5 +1,6 @@
 import * as React from 'react'
-import {Divider, Container, Flex, Button} from 'rebass-emotion'
+import {Flex} from 'grid-styled'
+import {Divider, Container, Button} from 'rebass'
 import Slice from './Slice'
 import TodoItem from './TodoItem'
 import { Handlers, State } from './StateContainer';

@@ -1,6 +1,7 @@
 import {findDOMNode} from 'react-dom';
 import * as React from "react";
-import {Input, Flex} from 'rebass-emotion'
+import {Flex} from 'grid-styled'
+import {Input} from 'rebass'
 import {TodoItem as ITodoItem} from './Data'
 
 type Props = {
