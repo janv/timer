@@ -5,6 +5,7 @@ import 'react-tagsinput/react-tagsinput.css' // If using WebPack and style-loade
 import TagSuggest from "./TagSuggest";
 
 const SUGGESTIONS = [
+  'type:',
   'type:dev',
   'type:team-lead',
   'type:admin',
@@ -68,6 +69,7 @@ export default class TagInput extends React.Component<Props> {
       onChange={props.onChange}
       addTag={props.addTag}
       ref={props.ref}
+      onKeyDown={props.onKeyDown}
     />
   }
 
