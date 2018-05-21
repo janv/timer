@@ -70,6 +70,7 @@ export default class TagInput extends React.Component<Props> {
       addTag={props.addTag}
       ref={props.ref}
       onKeyDown={props.onKeyDown}
+      onFocus={props.onFocus}
     />
   }
 

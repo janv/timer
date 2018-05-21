@@ -11,6 +11,7 @@ interface Props {
   value: string
   onChange: (e:React.ChangeEvent<HTMLInputElement>) => void
   onKeyDown: (e:React.KeyboardEvent<HTMLInputElement>) => void
+  onFocus: (e:React.FocusEvent<HTMLInputElement>) => void
   addTag: (s:string) => void
 }
 
@@ -52,6 +53,9 @@ export default class TagSuggest extends React.Component<Props> {
       } else {
       }
       this.props.onKeyDown(e)
+    },
+    onFocus: (e:React.FocusEvent<HTMLInputElement>) => {
+      this.props.onFocus(e)
     }
   }
 
