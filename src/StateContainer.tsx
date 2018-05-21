@@ -41,7 +41,7 @@ export default class StateContainer extends React.Component<Props, State> {
   }
 
   componentDidUpdate(prevProps:{}, prevState:State) {
-    if (prevState !== this.state) {
+    if (prevState.days !== this.state.days || prevState.todos !== this.state.todos) {
       this.saveState()
     }
   }

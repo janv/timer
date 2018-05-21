@@ -57,8 +57,10 @@ export default class Slice extends React.Component<Props> {
 
   render() {
     return (
-        <Flex align="center">
+        <Flex align="center" >
             <Input
+              width="300px"
+              flex="0"
               ref={this.titleRef}
               value={this.props.slice.title}
               placeholder="Input"
@@ -67,6 +69,9 @@ export default class Slice extends React.Component<Props> {
               onChange={this.handleChangeTitle}
             />
             <Input
+              width="5em"
+              flex="0"
+              mx="4"
               ref={this.timeRef}
               value={this.props.slice.end}
               onKeyDown={this.handleKeyDownTime}
@@ -80,7 +85,7 @@ export default class Slice extends React.Component<Props> {
               onKeyDown={this.handleKeyDownTags}
               ref={this.tagsRef}
             />
-            <Button onClick={this.handleDelete}>X</Button>
+            <Button ml="4" onClick={this.handleDelete}>X</Button>
         </Flex>
     )
   }

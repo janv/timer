@@ -3,8 +3,15 @@ import {Provider as StyleProvider} from 'rebass-emotion'
 import Main from './Main'
 import './App.css';
 import StateContainer from './StateContainer'
+import {injectGlobal} from 'emotion'
 
 import logo from './logo.svg';
+
+injectGlobal`
+  * {
+    box-sizing: border-box;
+  }
+`
 
 class App extends React.Component {
   public render() {

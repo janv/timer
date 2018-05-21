@@ -1,7 +1,8 @@
 import * as React from "react";
 import * as TagsInput from 'react-tagsinput'
 import { RenderInputProps } from "react-tagsinput";
-import 'react-tagsinput/react-tagsinput.css' // If using WebPack and style-loader.
+// import 'react-tagsinput/react-tagsinput.css' // If using WebPack and style-loader.
+import {css} from 'emotion'
 import TagSuggest from "./TagSuggest";
 
 const SUGGESTIONS = [
@@ -16,6 +17,23 @@ const SUGGESTIONS = [
   'source:mgmt',
 ]
 
+const className = css`
+  flex: 1;
+
+  .react-tagsinput > span {
+    display: flex;
+    align-items: center;
+  }
+
+  .react-tagsinput-tag {
+    border-radius: 2px;
+    border: 1px solid #a5d24a;
+    padding: 3px 5px;
+    margin-right: 3px;
+    display: block;
+  }
+`
+
 const EMPTY_TAGS:string[] = []
 
 type Props = {
@@ -28,7 +46,7 @@ type Props = {
 export default class TagInput extends React.Component<Props> {
   render() {
     return (
-      <div onKeyDown={this.handleKeyDownTags}>
+      <div className={className} onKeyDown={this.handleKeyDownTags}>
         <TagsInput
           value={this.props.tags || EMPTY_TAGS}
           onChange={this.handleChange}
