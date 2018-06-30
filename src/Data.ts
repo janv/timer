@@ -14,7 +14,7 @@ export function now() {
   return  m.format('HH:mm')
 }
 
-export function increment(time:string, inc:-5|5) {
+export function increment(time:string, inc:-5|5|0) {
   const currentDate = moment().format('YYYY-MM-DD')
   const m = moment(currentDate + ' ' + time)
   const minutes = m.get('minutes')
