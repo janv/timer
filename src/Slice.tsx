@@ -2,8 +2,9 @@ import {findDOMNode} from 'react-dom';
 import * as React from "react";
 import {Input, Button} from 'rebass'
 import {Flex} from 'grid-styled'
-import {Slice as ISlice, increment} from './Data'
+import {Slice as ISlice} from './Data'
 import TagInput from './TagInput';
+import TimeInput from './TimeInput';
 
 type Props = {
   slice: ISlice
@@ -53,7 +54,7 @@ export default class Slice extends React.Component<Props> {
   }
 
   titleRef = React.createRef<React.ReactInstance>()
-  timeRef  = React.createRef<React.ReactInstance>()
+  timeRef  = React.createRef<TimeInput>()
   tagsRef  = React.createRef<TagInput>()
 
   render() {
@@ -69,10 +70,7 @@ export default class Slice extends React.Component<Props> {
               onFocus={this.handleFocusTitle}
               onChange={this.handleChangeTitle}
             />
-            <Input
-              width="5em"
-              flex="0"
-              mx="4"
+            <TimeInput
               ref={this.timeRef}
               value={this.props.slice.end}
               onKeyDown={this.handleKeyDownTime}
@@ -114,17 +112,7 @@ export default class Slice extends React.Component<Props> {
   }
 
   handleKeyDownTime = (e:React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'ArrowUp') {
-      this.props.onChange({
-        ...this.props.slice,
-        end: increment(this.props.slice.end, -5)
-      })
-    } else if (e.key === 'ArrowDown') {
-      this.props.onChange({
-        ...this.props.slice,
-        end: increment(this.props.slice.end, 5)
-      })
-    } else if (e.key === 'Tab') {
+    if (e.key === 'Tab') {
       e.preventDefault()
       this.props.onFocusFieldChange(this.props.slice, 'tags')
     }
@@ -134,7 +122,7 @@ export default class Slice extends React.Component<Props> {
     this.props.onFocusFieldChange(this.props.slice, 'title')
   }
 
-  handleFocusTime = (e:React.FocusEvent<HTMLInputElement>) => {
+  handleFocusTime = () => {
     this.props.onFocusFieldChange(this.props.slice, 'time')
   }
 
@@ -146,8 +134,8 @@ export default class Slice extends React.Component<Props> {
     this.props.onChange({...this.props.slice, title: e.currentTarget.value})
   }
 
-  handleChangeTime = (e:React.ChangeEvent<HTMLInputElement>) => {
-    this.props.onChange({...this.props.slice, end: e.currentTarget.value})
+  handleChangeTime = (end:string) => {
+    this.props.onChange({...this.props.slice, end})
   }
 
   handleChangeTags = (tags: string[]) => {
