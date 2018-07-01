@@ -70,6 +70,6 @@ export default class TodoItem extends React.Component<Props> {
   }
 
   handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-    this.props.onChange({title: e.currentTarget.value})
+    this.props.onChange({...this.props.todoItem, title: e.currentTarget.value})
   }
 }

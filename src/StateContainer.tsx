@@ -1,22 +1,23 @@
 import * as React from 'react'
-import { Slice as ISlice, TodoItem as ITodoItem, Day } from './Data';
-import { focusUp, focusDown, focusSlice, focusTodo, createSliceFromTodo, deleteSlice, replaceFocussedSlice, changeTodoItem, createDefaultState, changeDate } from './State';
+import { Slice as ISlice, TodoItem as ITodoItem, Day, Slice, Time } from './Data';
+import { focusUp, focusDown, focusSlice, focusTodo, createSliceFromTodo, deleteSlice, updateSlice, changeTodoItem, createDefaultState, changeDate } from './State';
 import { debounce } from 'lodash';
 import {omit} from 'lodash'
 
 export type Handlers = StateContainer['handlers']
 
-export type FocusInfo = {type: 'slice', index:number, field:'title'|'time'} | {type: 'todoitem', index:number}
+export type FocusInfo = {type: 'slice', id:string, field:'title'|'time'}
+                      | {type: 'todoitem', id:string}
 
 export interface PersistedState {
-  days: { [date: string]: Day }
+  slices: Slice[]
   todos: ITodoItem[]
   focus: FocusInfo
 }
 
 export interface State extends PersistedState {
   lastSaved?: Date
-  date: string
+  date: Day
 }
 
 interface Props {
@@ -41,7 +42,7 @@ export default class StateContainer extends React.Component<Props, State> {
   }
 
   componentDidUpdate(prevProps:{}, prevState:State) {
-    if (prevState.days !== this.state.days || prevState.todos !== this.state.todos) {
+    if (prevState.slices !== this.state.slices || prevState.todos !== this.state.todos) {
       this.saveState()
     }
   }
@@ -50,7 +51,18 @@ export default class StateContainer extends React.Component<Props, State> {
     const jsonSate = window.localStorage.getItem('timerState');
 
     try {
-      const state:PersistedState = JSON.parse(jsonSate!)
+      const state:PersistedState = JSON.parse(jsonSate!, (k, v) => {
+        console.log('revive', k, v)
+        if (v._isTime) {
+          console.log('returning Time')
+          return Time.fromJSON(v)
+        }
+        if (v._isDay) {
+          console.log('returning Day')
+          return Day.fromJSON(v)
+        }
+        return v
+      })
       this.setState(state)
     } catch (e) {
       this.setState(createDefaultState())
@@ -93,6 +105,7 @@ export default class StateContainer extends React.Component<Props, State> {
     },
 
     focusSlice: (slice: ISlice, field: 'time'|'title') => {
+      console.log('Focus slice %o, %o', slice, field)
       this.setState(focusSlice(slice, field))
     },
 
@@ -109,14 +122,14 @@ export default class StateContainer extends React.Component<Props, State> {
     },
 
     changeSlice: (slice:ISlice) => {
-      this.setState(replaceFocussedSlice(slice))
+      this.setState(updateSlice(slice))
     },
 
     deleteSlice: (slice:ISlice) => {
       this.setState(deleteSlice(slice))
     },
 
-    changeDate: (date:string) => {
+    changeDate: (date:Day) => {
       this.setState(changeDate(date))
     }
   }

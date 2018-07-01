@@ -6,6 +6,7 @@
     "@types/lodash": "^4.14.108",
     "@types/react-autocomplete": "^1.8.1",
     "@types/react-tagsinput": "^3.19.2",
+    "@types/uuid": "^3.4.3",
     "emotion": "^9.1.2",
     "grid-styled": "^4.1.0",
     "lodash": "^4.17.10",
@@ -18,7 +19,8 @@
     "react-scripts-ts": "2.15.1",
     "react-tagsinput": "^3.19.0",
     "rebass": "^2.0.0-2",
-    "rebass-emotion": "^1.0.7"
+    "rebass-emotion": "^1.0.7",
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts-ts start",

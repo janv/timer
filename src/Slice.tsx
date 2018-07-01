@@ -2,7 +2,7 @@ import {findDOMNode} from 'react-dom';
 import * as React from "react";
 import {Input, Button} from 'rebass'
 import {Flex} from 'grid-styled'
-import {Slice as ISlice} from './Data'
+import {Slice as ISlice, Time} from './Data'
 import TagInput from './TagInput';
 import TimeInput from './TimeInput';
 
@@ -72,7 +72,7 @@ export default class Slice extends React.Component<Props> {
             />
             <TimeInput
               ref={this.timeRef}
-              value={this.props.slice.end}
+              time={this.props.slice.end}
               onKeyDown={this.handleKeyDownTime}
               onFocus={this.handleFocusTime}
               onChange={this.handleChangeTime}
@@ -134,7 +134,7 @@ export default class Slice extends React.Component<Props> {
     this.props.onChange({...this.props.slice, title: e.currentTarget.value})
   }
 
-  handleChangeTime = (end:string) => {
+  handleChangeTime = (end:Time) => {
     this.props.onChange({...this.props.slice, end})
   }
 

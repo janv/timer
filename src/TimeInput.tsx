@@ -1,16 +1,16 @@
 import * as React from 'react';
 import {Input} from 'rebass'
-import {increment} from './Data'
+import { Time } from './Data';
 
 interface Props {
-  value: string
+  time: Time
   onFocus: () => void
-  onChange: (value: string) => void
+  onChange: (value: Time) => void
   onKeyDown: (e:React.KeyboardEvent<HTMLElement>) => void
 }
 
-export default class TimeInput extends React.Component<Props, {value:string}> {
-  state = {value: this.props.value};
+export default class TimeInput extends React.Component<Props, {isoTime:string}> {
+  state = {isoTime: this.props.time.get()};
 
   render() {
       return <Input
@@ -18,7 +18,7 @@ export default class TimeInput extends React.Component<Props, {value:string}> {
           flex="0"
           mx="4"
           ref={this.inputRef}
-          value={this.state.value}
+          value={this.state.isoTime}
           onKeyDown={this.handleKeyDown}
           onFocus={this.handleFocus}
           onChange={this.handleChange}
@@ -29,10 +29,10 @@ export default class TimeInput extends React.Component<Props, {value:string}> {
   inputRef = React.createRef<HTMLInputElement>()
 
   componentDidUpdate(prevProps:Props) {
-    const valueDidUpdate = prevProps.value !== this.props.value
-    const valueIsDifferent = this.props.value !== this.state.value
+    const valueDidUpdate = prevProps.time !== this.props.time
+    const valueIsDifferent = this.props.time.get() !== this.state.isoTime
     if (valueDidUpdate && valueIsDifferent) {
-      this.setState({value: this.props.value})
+      this.setState({isoTime: this.props.time.get()})
     }
   }
 
@@ -42,12 +42,13 @@ export default class TimeInput extends React.Component<Props, {value:string}> {
 
   handleKeyDown = (e:React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'ArrowUp') {
-      this.props.onChange(increment(this.state.value, -5))
+      this.props.onChange(this.props.time.increment(-5))
     } else if (e.key === 'ArrowDown') {
-      this.props.onChange(increment(this.state.value, 5))
+      this.props.onChange(this.props.time.increment(5))
     } else if (e.key === 'Enter'){
-      this.props.onChange(increment(this.state.value, 0))
-    } else if (e.key === 'Tab') {
+      //todo if isotime invalid, reset isotime
+      this.props.onChange(this.props.time.set(this.state.isoTime))
+    } else {
       this.props.onKeyDown(e);
     }
   }
@@ -57,13 +58,11 @@ export default class TimeInput extends React.Component<Props, {value:string}> {
   }
 
   handleBlur = (e:React.FocusEvent<HTMLInputElement>) => {
-    if (this.props.value !== this.state.value) {
-      this.setState({value: this.props.value});
-    }
+    this.props.onChange(this.props.time.set(this.state.isoTime))
   }
 
   handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({value: e.currentTarget.value})
+    this.setState({isoTime: e.currentTarget.value})
   }
 
 }

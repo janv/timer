@@ -6,6 +6,7 @@ import TodoItem from './TodoItem'
 import { Handlers, State } from './StateContainer';
 import LastSaved from './LastSaved'
 import DatePicker from './DatePicker'
+import { currentSlices } from './State';
 
 interface Props {
   handlers: Handlers
@@ -16,7 +17,7 @@ export default class Main extends React.Component<Props> {
   render() {
     const {handlers, state} = this.props
     const focus = state.focus
-    const currentDay = state.days[state.date]
+    const slices = currentSlices(state)
     return (
       <Container m={3}>
         <Flex>
@@ -28,11 +29,11 @@ export default class Main extends React.Component<Props> {
         <Divider/>
         <DatePicker value={state.date} onChange={handlers.changeDate}/>
         <Divider/>
-        {currentDay.slices.map((slice, i) => (
+        {slices.map((slice) => (
           <Slice
             slice={slice}
-            key={i}
-            focus={focus.type === 'slice' && focus.index === i ? focus.field : undefined }
+            key={slice.id}
+            focus={focus.type === 'slice' && focus.id === slice.id ? focus.field : undefined }
             onFocusDown={handlers.focusDown}
             onFocusUp={handlers.focusUp}
             onFocusFieldChange={handlers.focusSlice}
@@ -41,11 +42,11 @@ export default class Main extends React.Component<Props> {
             />
         ))}
         <Divider/>
-        {state.todos.map((todo, i) => (
+        {state.todos.map((todo) => (
           <TodoItem
             todoItem={todo}
-            focus={focus.type === 'todoitem' && focus.index === i}
-            key={i}
+            focus={focus.type === 'todoitem' && focus.id === todo.id}
+            key={todo.id}
             onFocusDown={handlers.focusDown}
             onFocusUp={handlers.focusUp}
             onEnter={handlers.createSliceFromTodo}
