@@ -1,7 +1,8 @@
-import { TodoItem as ITodoItem, TodoItem, Slice, appendSlice, Day, makeTodoItem } from './Data';
-import { setIn, splice} from './util/icepick';
-import { State, FocusInfo } from './StateContainer';
+import { TodoItem as ITodoItem, TodoItem, Slice, appendSlice, Day, makeTodoItem, Time } from './Data';
+import { setIn, splice, slice} from './util/icepick';
+import { State, FocusInfo, PersistedState } from './StateContainer';
 import { sortBy, isEqual, findIndex, last } from 'lodash';
+import * as uuid from 'uuid/v4'
 
 
 export function createDefaultState():State {
@@ -248,4 +249,39 @@ function nextFocus(things:{id:string}[], focus:FocusInfo):FocusInfo {
 function prevFocus(things:{id:string}[], focus:FocusInfo):FocusInfo {
   const index = id2Index(things, focus);
   return {...focus, id:things[index-1].id}
+}
+
+namespace V1 {
+  type Slice = {
+    title: string
+    end: string
+    tags: string[]
+  }
+  type Day = {
+    slices: Slice[]
+  }
+  export type PersistedState = {
+    days: {[date:string]: Day}
+  }
+}
+
+function migrate(oldData:V1.PersistedState):PersistedState {
+  const state = {
+    slices: Object.keys(oldData.days).reduce(
+      (slices, dateIso) => [
+        ...slices,
+        ...oldData.days[dateIso].slices.map(
+          (sliceForDay) => ({
+            title: sliceForDay.title,
+            id: uuid(),
+            tags: sliceForDay.tags,
+            end: new Time(dateIso + 'T' + sliceForDay.end)
+          })
+        )], [] as Slice[]),
+    todos: [{title: '', id:uuid()}]
+  }
+  return {
+    ...state,
+    focus: {type: 'todoitem', id:state.todos[0].id}
+  }
 }
