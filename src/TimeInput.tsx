@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {Input} from 'rebass'
 import { Time } from './Data';
+import * as moment from 'moment';
 
 interface Props {
   time: Time
@@ -46,10 +47,9 @@ export default class TimeInput extends React.Component<Props, {isoTime:string}> 
     } else if (e.key === 'ArrowDown') {
       this.props.onChange(this.props.time.increment(5))
     } else if (e.key === 'Enter'){
-      //todo if isotime invalid, reset isotime
-      this.props.onChange(this.props.time.set(this.state.isoTime))
+      this.updateTime()
     } else {
-      this.props.onKeyDown(e);
+      this.props.onKeyDown(e)
     }
   }
 
@@ -58,11 +58,20 @@ export default class TimeInput extends React.Component<Props, {isoTime:string}> 
   }
 
   handleBlur = (e:React.FocusEvent<HTMLInputElement>) => {
-    this.props.onChange(this.props.time.set(this.state.isoTime))
+    this.updateTime()
   }
 
   handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     this.setState({isoTime: e.currentTarget.value})
+  }
+
+  updateTime() {
+    const time = moment(this.state.isoTime, moment.HTML5_FMT.TIME)
+    if (time.isValid()) {
+      this.props.onChange(this.props.time.set(time.format(moment.HTML5_FMT.TIME)))
+    } else {
+      this.setState({isoTime: this.props.time.get()})
+    }
   }
 
 }

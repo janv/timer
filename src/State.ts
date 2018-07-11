@@ -1,5 +1,5 @@
 import { TodoItem as ITodoItem, TodoItem, Slice, appendSlice, Day, makeTodoItem, Time } from './Data';
-import { setIn, splice, slice} from './util/icepick';
+import { setIn, splice} from './util/icepick';
 import { State, FocusInfo, PersistedState } from './StateContainer';
 import { sortBy, isEqual, findIndex, last } from 'lodash';
 import * as uuid from 'uuid/v4'
