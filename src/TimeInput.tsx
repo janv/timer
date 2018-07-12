@@ -42,9 +42,11 @@ export default class TimeInput extends React.Component<Props, {isoTime:string}> 
   }
 
   handleKeyDown = (e:React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'ArrowUp') {
+    if (e.key === 'ArrowUp' && e.metaKey) {
+      e.preventDefault()
       this.props.onChange(this.props.time.increment(-5))
-    } else if (e.key === 'ArrowDown') {
+    } else if (e.key === 'ArrowDown' && e.metaKey) {
+      e.preventDefault()
       this.props.onChange(this.props.time.increment(5))
     } else if (e.key === 'Enter'){
       this.updateTime()

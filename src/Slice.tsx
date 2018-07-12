@@ -96,7 +96,7 @@ export default class Slice extends React.Component<Props> {
       this.props.onFocusDown()
     } else if (e.key === 'Tab') {
       e.preventDefault()
-      this.props.onFocusFieldChange(this.props.slice, 'time')
+      this.props.onFocusFieldChange(this.props.slice, e.shiftKey ? 'tags' : 'time')
     }
   }
 
@@ -107,14 +107,18 @@ export default class Slice extends React.Component<Props> {
       this.props.onFocusDown()
     } else if (e.key === 'Tab') {
       e.preventDefault()
-      this.props.onFocusFieldChange(this.props.slice, 'title')
+      this.props.onFocusFieldChange(this.props.slice, e.shiftKey ? 'time' : 'title')
     }
   }
 
   handleKeyDownTime = (e:React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Tab') {
+    if (e.key === 'ArrowUp') {
+      this.props.onFocusUp()
+    } else if (e.key === 'ArrowDown') {
+      this.props.onFocusDown()
+    } else if (e.key === 'Tab') {
       e.preventDefault()
-      this.props.onFocusFieldChange(this.props.slice, 'tags')
+      this.props.onFocusFieldChange(this.props.slice, e.shiftKey ? 'title' : 'tags')
     }
   }
 

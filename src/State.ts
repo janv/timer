@@ -228,7 +228,7 @@ function focusLastSlice(state:State, slices:Slice[]):State {
   if (!lastSlice) throw new Error('no last slice')
   return {
     ...state,
-    focus: {type: 'slice', id: lastSlice.id, field: 'field' in state.focus ? state.focus.field : 'title'}
+    focus: {type: 'slice', id: lastSlice.id, field: 'field' in state.focus ? state.focus.field : 'time'}
   }
 }
 
