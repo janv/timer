@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Input} from 'rebass'
 import { Time } from './Data';
 import * as moment from 'moment';
+import {findDOMNode} from 'react-dom';
 
 interface Props {
   time: Time
@@ -56,7 +57,10 @@ export default class TimeInput extends React.Component<Props, {isoTime:string}> 
   }
 
   handleFocus = (e:React.FocusEvent<HTMLInputElement>) => {
-    this.props.onFocus()
+    this.props.onFocus();
+    // TODO Hacky, because the inputRef is actually a styledComponent wrapper,
+    // but we need the actual input element
+    (findDOMNode(this.inputRef.current!) as HTMLInputElement).select()
   }
 
   handleBlur = (e:React.FocusEvent<HTMLInputElement>) => {

@@ -105,7 +105,6 @@ export default class StateContainer extends React.Component<Props, State> {
     },
 
     focusSlice: (slice: ISlice, field: 'time'|'title') => {
-      console.log('Focus slice %o, %o', slice, field)
       this.setState(focusSlice(slice, field))
     },
 
