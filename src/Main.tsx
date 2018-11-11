@@ -15,16 +15,8 @@ interface Props {
   state: State
 }
 
-const Footer = styled('div')`flex-shrink: 0; width: 100%; display: flex; > * {margin-right: ${margin}px};`
-
-const Container = styled('div')`
-  margin: ${margin}px;
-  display: flex;
-  flex-wrap: wrap;
-  height: 100%;
-  align-items: flex-start;
-`
-const Area = styled('div')`flex: 1; width: ${(props:{width: string})=>props.width}%; label: "Area"`
+const Box = styled('div')`margin: 10px;`
+const Flex = styled('div')`display: flex; > * {margin-right: ${margin}px};`
 
 export default class Main extends React.Component<Props> {
   render() {
@@ -32,10 +24,31 @@ export default class Main extends React.Component<Props> {
     const focus = state.focus
     const slices = currentSlices(state)
     return (
-      <Container>
-        <Area width="30">
-          {state.todos.map((todo) => (
-            <TodoItem
+      <Box>
+        <Flex>
+          <Button onClick={handlers.load}>Load</Button>
+          <Button onClick={handlers.save}>Save</Button>
+          <Button onClick={handlers.reset}>Reset</Button>
+          <LastSaved lastSaved={state.lastSaved}/>
+        </Flex>
+        <Divider/>
+        <DatePicker value={state.date} onChange={handlers.changeDate}/>
+        <Divider/>
+        {slices.map((slice) => (
+          <Slice
+            slice={slice}
+            key={slice.id}
+            focus={focus.type === 'slice' && focus.id === slice.id ? focus.field : undefined }
+            onFocusDown={handlers.focusDown}
+            onFocusUp={handlers.focusUp}
+            onFocusFieldChange={handlers.focusSlice}
+            onChange={handlers.changeSlice}
+            onDelete={handlers.deleteSlice}
+            />
+        ))}
+        <Divider/>
+        {state.todos.map((todo) => (
+          <TodoItem
             todoItem={todo}
             focus={focus.type === 'todoitem' && focus.id === todo.id}
             key={todo.id}
@@ -45,30 +58,8 @@ export default class Main extends React.Component<Props> {
             onFocus={handlers.focusTodo}
             onChange={handlers.changeTodoItem}
             />
-          ))}
-        </Area>
-        <Area width="70">
-          <DatePicker value={state.date} onChange={handlers.changeDate}/>
-          {slices.map((slice) => (
-            <Slice
-              slice={slice}
-              key={slice.id}
-              focus={focus.type === 'slice' && focus.id === slice.id ? focus.field : undefined }
-              onFocusDown={handlers.focusDown}
-              onFocusUp={handlers.focusUp}
-              onFocusFieldChange={handlers.focusSlice}
-              onChange={handlers.changeSlice}
-              onDelete={handlers.deleteSlice}
-              />
-          ))}
-        </Area>
-        <Footer>
-          <Button onClick={handlers.load}>Load</Button>
-          <Button onClick={handlers.save}>Save</Button>
-          <Button onClick={handlers.reset}>Reset</Button>
-          <LastSaved lastSaved={state.lastSaved}/>
-        </Footer>
-      </Container>
+        ))}
+      </Box>
     )
   }
 }
