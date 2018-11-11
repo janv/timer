@@ -1,11 +1,10 @@
 import {findDOMNode} from 'react-dom';
 import * as React from "react";
-import {Button} from 'rebass/emotion'
-import {Flex} from '@rebass/grid/emotion'
 import { css } from "emotion";
 import {Slice as ISlice, Time} from './Data'
 import TagInput from './TagInput';
 import TimeInput from './TimeInput';
+import styled from 'react-emotion';
 
 type Props = {
   slice: ISlice
@@ -16,6 +15,9 @@ type Props = {
   onChange: (slice: ISlice) => void
   onDelete: (slice: ISlice) => void
 }
+
+const Container = styled('div')`display: flex; align-items: center`
+const DeleteButton = styled('button')`margin-left: 10px`
 
 export default class Slice extends React.Component<Props> {
   componentDidUpdate(prevProps:Props) {
@@ -60,7 +62,7 @@ export default class Slice extends React.Component<Props> {
 
   render() {
     return (
-        <Flex alignItems="center" >
+        <Container>
             <input
               width="300px"
               className={css({flex: 0})}
@@ -85,8 +87,8 @@ export default class Slice extends React.Component<Props> {
               onKeyDown={this.handleKeyDownTags}
               ref={this.tagsRef}
             />
-            <Button ml={4} onClick={this.handleDelete}>X</Button>
-        </Flex>
+            <DeleteButton onClick={this.handleDelete}>X</DeleteButton>
+        </Container>
     )
   }
 

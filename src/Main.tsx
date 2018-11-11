@@ -1,17 +1,19 @@
 import * as React from 'react'
-import {Flex} from '@rebass/grid'
-import {Box, Button} from 'rebass/emotion'
 import Slice from './Slice'
 import TodoItem from './TodoItem'
 import { Handlers, State } from './StateContainer';
 import LastSaved from './LastSaved'
 import DatePicker from './DatePicker'
 import { currentSlices } from './State';
+import styled from 'react-emotion';
 
 interface Props {
   handlers: Handlers
   state: State
 }
+
+const Box = styled('div')`margin: 10px`
+const Flex = styled('div')`display: flex`
 
 export default class Main extends React.Component<Props> {
   render() {
@@ -19,11 +21,11 @@ export default class Main extends React.Component<Props> {
     const focus = state.focus
     const slices = currentSlices(state)
     return (
-      <Box m={3}>
+      <Box>
         <Flex>
-          <Button onClick={handlers.load}>Load</Button>
-          <Button onClick={handlers.save}>Save</Button>
-          <Button onClick={handlers.reset}>Reset</Button>
+          <button onClick={handlers.load}>Load</button>
+          <button onClick={handlers.save}>Save</button>
+          <button onClick={handlers.reset}>Reset</button>
           <LastSaved lastSaved={state.lastSaved}/>
         </Flex>
         <hr/>

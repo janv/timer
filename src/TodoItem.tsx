@@ -1,7 +1,7 @@
 import {findDOMNode} from 'react-dom';
 import * as React from "react";
-import {Flex} from '@rebass/grid/emotion'
 import {TodoItem as ITodoItem} from './Data'
+import styled from "react-emotion";
 
 type Props = {
   todoItem: ITodoItem
@@ -12,6 +12,8 @@ type Props = {
   onFocus: (todo: ITodoItem) => void
   onChange: (todo: ITodoItem) => void
 }
+
+const Container = styled('div')`align-items: center;`
 
 export default class TodoItem extends React.Component<Props> {
 
@@ -36,7 +38,7 @@ export default class TodoItem extends React.Component<Props> {
 
   render() {
     return (
-      <Flex alignItems="center">
+      <Container>
           <input
             ref={this.inputRef}
             value={this.props.todoItem.title}
@@ -46,7 +48,7 @@ export default class TodoItem extends React.Component<Props> {
             onFocus={this.handleFocus}
             onChange={this.handleChange}
           />
-      </Flex>
+      </Container>
     )
   }
 

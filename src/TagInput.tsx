@@ -2,8 +2,7 @@ import * as React from "react";
 import * as TagsInput from 'react-tagsinput'
 import { RenderInputProps } from "react-tagsinput";
 // import 'react-tagsinput/react-tagsinput.css' // If using WebPack and style-loader.
-// import {css} from 'emotion'
-import styled from 'styled-components'
+import styled from 'react-emotion'
 import TagSuggest from "./TagSuggest";
 
 const SUGGESTIONS = [
@@ -18,7 +17,7 @@ const SUGGESTIONS = [
   'source:mgmt',
 ]
 
-const Wrapper = styled.div`
+const Wrapper = styled('div')`
   flex: 1;
 
   .react-tagsinput > span {
