@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as AutoComplete from 'react-autocomplete'
+import Input from "./components/Input";
 
 interface WithApi extends AutoComplete {
   focus():void
@@ -40,8 +41,14 @@ export default class TagSuggest extends React.Component<Props> {
         onSelect={this.handleSelect}
         inputProps={this.inputProps}
         shouldItemRender={this.shouldItemRender}
+        renderInput={this.renderInput}
       />
     )
+  }
+
+  renderInput(props:any) {
+    const {ref, ...other} = props
+    return <Input innerRef={ref} {...other}/>
   }
 
   inputProps = {

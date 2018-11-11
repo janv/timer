@@ -6,14 +6,17 @@ import LastSaved from './LastSaved'
 import DatePicker from './DatePicker'
 import { currentSlices } from './State';
 import styled from 'react-emotion';
+import Button from './components/Button';
+import Divider from './components/Divider';
+import { margin } from './components/base';
 
 interface Props {
   handlers: Handlers
   state: State
 }
 
-const Box = styled('div')`margin: 10px`
-const Flex = styled('div')`display: flex`
+const Box = styled('div')`margin: 10px;`
+const Flex = styled('div')`display: flex; > * {margin-right: ${margin}px};`
 
 export default class Main extends React.Component<Props> {
   render() {
@@ -23,14 +26,14 @@ export default class Main extends React.Component<Props> {
     return (
       <Box>
         <Flex>
-          <button onClick={handlers.load}>Load</button>
-          <button onClick={handlers.save}>Save</button>
-          <button onClick={handlers.reset}>Reset</button>
+          <Button onClick={handlers.load}>Load</Button>
+          <Button onClick={handlers.save}>Save</Button>
+          <Button onClick={handlers.reset}>Reset</Button>
           <LastSaved lastSaved={state.lastSaved}/>
         </Flex>
-        <hr/>
+        <Divider/>
         <DatePicker value={state.date} onChange={handlers.changeDate}/>
-        <hr/>
+        <Divider/>
         {slices.map((slice) => (
           <Slice
             slice={slice}
@@ -43,7 +46,7 @@ export default class Main extends React.Component<Props> {
             onDelete={handlers.deleteSlice}
             />
         ))}
-        <hr/>
+        <Divider/>
         {state.todos.map((todo) => (
           <TodoItem
             todoItem={todo}

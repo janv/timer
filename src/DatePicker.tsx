@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Day } from "./Data";
+import Input from "./components/Input";
 
 interface Props {
   onChange: (date:Day) => void
@@ -8,7 +9,7 @@ interface Props {
 
 export default class DatePicker extends React.Component<Props> {
   render() {
-    return <input
+    return <Input
       type='date'
       onChange={this.handleChange}
       value={this.props.value.isoDateString}

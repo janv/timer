@@ -2,6 +2,7 @@ import {findDOMNode} from 'react-dom';
 import * as React from "react";
 import {TodoItem as ITodoItem} from './Data'
 import styled from "react-emotion";
+import Input from './components/Input';
 
 type Props = {
   todoItem: ITodoItem
@@ -39,8 +40,8 @@ export default class TodoItem extends React.Component<Props> {
   render() {
     return (
       <Container>
-          <input
-            ref={this.inputRef}
+          <Input
+            innerRef={this.inputRef}
             value={this.props.todoItem.title}
             placeholder="Input"
             onKeyDown={this.handleKeyDown}

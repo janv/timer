@@ -5,6 +5,9 @@ import {Slice as ISlice, Time} from './Data'
 import TagInput from './TagInput';
 import TimeInput from './TimeInput';
 import styled from 'react-emotion';
+import Button from './components/Button';
+import Input from './components/Input';
+import { margin } from './components/base';
 
 type Props = {
   slice: ISlice
@@ -16,8 +19,8 @@ type Props = {
   onDelete: (slice: ISlice) => void
 }
 
-const Container = styled('div')`display: flex; align-items: center`
-const DeleteButton = styled('button')`margin-left: 10px`
+const Container = styled('div')`display: flex; align-items: center; margin-bottom: ${margin * 0.5}px`
+const Spacer = styled('div')`margin-right: ${margin * 0.5}px;`
 
 export default class Slice extends React.Component<Props> {
   componentDidUpdate(prevProps:Props) {
@@ -63,16 +66,17 @@ export default class Slice extends React.Component<Props> {
   render() {
     return (
         <Container>
-            <input
+            <Input
               width="300px"
-              className={css({flex: 0})}
-              ref={this.titleRef}
+              className={css`flex: 0;`}
+              innerRef={this.titleRef}
               value={this.props.slice.title}
               placeholder="Input"
               onKeyDown={this.handleKeyDownTitle}
               onFocus={this.handleFocusTitle}
               onChange={this.handleChangeTitle}
             />
+            <Spacer/>
             <TimeInput
               ref={this.timeRef}
               time={this.props.slice.end}
@@ -80,6 +84,7 @@ export default class Slice extends React.Component<Props> {
               onFocus={this.handleFocusTime}
               onChange={this.handleChangeTime}
             />
+            <Spacer/>
             <TagInput
               tags={this.props.slice.tags}
               onChange={this.handleChangeTags}
@@ -87,7 +92,8 @@ export default class Slice extends React.Component<Props> {
               onKeyDown={this.handleKeyDownTags}
               ref={this.tagsRef}
             />
-            <DeleteButton onClick={this.handleDelete}>X</DeleteButton>
+            <Spacer/>
+            <Button onClick={this.handleDelete}>X</Button>
         </Container>
     )
   }
