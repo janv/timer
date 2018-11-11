@@ -67,7 +67,7 @@ export default class StateContainer extends React.Component<Props, State> {
   }
 
   saveState = debounce(() => {
-    const pState = omit(this.state, 'lastSaved') as PersistedState
+    const pState = omit(this.state, 'lastSaved', 'date') as PersistedState
     window.localStorage.setItem('timerState', JSON.stringify(pState))
     this.setState({
       lastSaved: new Date()
