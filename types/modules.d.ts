@@ -1,2 +1,7 @@
-declare module 'rebass-emotion'
-declare module 'rebass'
+declare module "@rebass/grid/emotion" {
+  export * from '@rebass/grid'
+}
+
+declare module "rebass/emotion" {
+  export * from 'rebass'
+}

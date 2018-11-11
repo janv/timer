@@ -1,7 +1,6 @@
 import {findDOMNode} from 'react-dom';
 import * as React from "react";
-import {Flex} from 'grid-styled'
-import {Input} from 'rebass'
+import {Flex} from '@rebass/grid/emotion'
 import {TodoItem as ITodoItem} from './Data'
 
 type Props = {
@@ -33,12 +32,12 @@ export default class TodoItem extends React.Component<Props> {
     element.focus()
   }
 
-  inputRef = React.createRef<React.ReactInstance>()
+  inputRef = React.createRef<HTMLInputElement>()
 
   render() {
     return (
-      <Flex align="center">
-          <Input
+      <Flex alignItems="center">
+          <input
             ref={this.inputRef}
             value={this.props.todoItem.title}
             placeholder="Input"

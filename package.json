@@ -3,23 +3,27 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/lodash": "^4.14.108",
-    "@types/react-autocomplete": "^1.8.1",
-    "@types/react-tagsinput": "^3.19.2",
-    "@types/uuid": "^3.4.3",
-    "emotion": "^9.1.2",
-    "grid-styled": "^4.1.0",
-    "lodash": "^4.17.10",
-    "moment": "^2.22.1",
+    "@rebass/grid": "^6.0.0-4",
+    "@types/lodash": "^4.14.118",
+    "@types/react-autocomplete": "^1.8.4",
+    "@types/react-tagsinput": "^3.19.3",
+    "@types/rebass": "^0.3.2",
+    "@types/rebass__grid": "^6.0.0",
+    "@types/uuid": "^3.4.4",
+    "emotion": "^9.2.12",
+    "emotion-theming": "^9.2.9",
+    "jest": "^23.6.0",
+    "lodash": "^4.17.11",
+    "moment": "^2.22.2",
     "patch-package": "^5.1.1",
-    "react": "^16.3.2",
+    "react": "^16.6.1",
     "react-autocomplete": "^1.8.1",
-    "react-dom": "^16.3.2",
-    "react-emotion": "^9.1.2",
-    "react-scripts-ts": "2.15.1",
+    "react-dom": "^16.6.1",
+    "react-emotion": "^9.2.12",
+    "react-scripts-ts": "^4.0.8",
     "react-tagsinput": "^3.19.0",
-    "rebass": "^2.0.0-2",
-    "rebass-emotion": "^1.0.7",
+    "rebass": "^2.3.4",
+    "styled-components": "^4.0.3",
     "uuid": "^3.3.2"
   },
   "scripts": {
@@ -30,11 +34,16 @@
     "postinstall": "patch-package"
   },
   "devDependencies": {
-    "@types/grid-styled": "^4.1.0",
-    "@types/jest": "^22.2.3",
-    "@types/node": "^10.0.4",
-    "@types/react": "^16.3.13",
-    "@types/react-dom": "^16.0.5",
-    "typescript": "^2.8.3"
-  }
+    "@types/jest": "^23.3.9",
+    "@types/node": "^10.12.5",
+    "@types/react": "^16.7.2",
+    "@types/react-dom": "^16.0.9",
+    "typescript": "^3.1.6"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

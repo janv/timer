@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {Input} from 'rebass'
 import { Time } from './Data';
 import * as moment from 'moment';
 import {findDOMNode} from 'react-dom';
+import { css } from 'emotion';
 
 interface Props {
   time: Time
@@ -15,10 +15,9 @@ export default class TimeInput extends React.Component<Props, {isoTime:string}> 
   state = {isoTime: this.props.time.get()};
 
   render() {
-      return <Input
+      return <input
           width="5em"
-          flex="0"
-          mx="4"
+          className={css`flex: 0`}
           ref={this.inputRef}
           value={this.state.isoTime}
           onKeyDown={this.handleKeyDown}

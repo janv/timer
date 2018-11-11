@@ -1,7 +1,8 @@
 import {findDOMNode} from 'react-dom';
 import * as React from "react";
-import {Input, Button} from 'rebass'
-import {Flex} from 'grid-styled'
+import {Button} from 'rebass/emotion'
+import {Flex} from '@rebass/grid/emotion'
+import { css } from "emotion";
 import {Slice as ISlice, Time} from './Data'
 import TagInput from './TagInput';
 import TimeInput from './TimeInput';
@@ -53,16 +54,16 @@ export default class Slice extends React.Component<Props> {
     this.tagsRef.current!.focus()
   }
 
-  titleRef = React.createRef<React.ReactInstance>()
+  titleRef = React.createRef<HTMLInputElement>()
   timeRef  = React.createRef<TimeInput>()
   tagsRef  = React.createRef<TagInput>()
 
   render() {
     return (
-        <Flex align="center" >
-            <Input
+        <Flex alignItems="center" >
+            <input
               width="300px"
-              flex="0"
+              className={css({flex: 0})}
               ref={this.titleRef}
               value={this.props.slice.title}
               placeholder="Input"
@@ -84,7 +85,7 @@ export default class Slice extends React.Component<Props> {
               onKeyDown={this.handleKeyDownTags}
               ref={this.tagsRef}
             />
-            <Button ml="4" onClick={this.handleDelete}>X</Button>
+            <Button ml={4} onClick={this.handleDelete}>X</Button>
         </Flex>
     )
   }

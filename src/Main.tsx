@@ -1,6 +1,6 @@
 import * as React from 'react'
-import {Flex} from 'grid-styled'
-import {Divider, Container, Button} from 'rebass'
+import {Flex} from '@rebass/grid'
+import {Box, Button} from 'rebass/emotion'
 import Slice from './Slice'
 import TodoItem from './TodoItem'
 import { Handlers, State } from './StateContainer';
@@ -19,16 +19,16 @@ export default class Main extends React.Component<Props> {
     const focus = state.focus
     const slices = currentSlices(state)
     return (
-      <Container m={3}>
+      <Box m={3}>
         <Flex>
           <Button onClick={handlers.load}>Load</Button>
           <Button onClick={handlers.save}>Save</Button>
           <Button onClick={handlers.reset}>Reset</Button>
           <LastSaved lastSaved={state.lastSaved}/>
         </Flex>
-        <Divider/>
+        <hr/>
         <DatePicker value={state.date} onChange={handlers.changeDate}/>
-        <Divider/>
+        <hr/>
         {slices.map((slice) => (
           <Slice
             slice={slice}
@@ -41,7 +41,7 @@ export default class Main extends React.Component<Props> {
             onDelete={handlers.deleteSlice}
             />
         ))}
-        <Divider/>
+        <hr/>
         {state.todos.map((todo) => (
           <TodoItem
             todoItem={todo}
@@ -54,7 +54,7 @@ export default class Main extends React.Component<Props> {
             onChange={handlers.changeTodoItem}
             />
         ))}
-      </Container>
+      </Box>
     )
   }
 }

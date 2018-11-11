@@ -1,9 +1,8 @@
 import * as React from 'react';
-import {Provider as StyleProvider} from 'rebass'
 import Main from './Main'
 import './App.css';
 import StateContainer from './StateContainer'
-import {injectGlobal} from 'styled-components'
+import {injectGlobal} from 'emotion'
 
 import logo from './logo.svg';
 
@@ -16,7 +15,6 @@ injectGlobal`
 class App extends React.Component {
   public render() {
     return (
-      <StyleProvider>
       <StateContainer>
         {
           (state, handlers) => (
@@ -33,7 +31,6 @@ class App extends React.Component {
           )
         }
       </StateContainer>
-      </StyleProvider>
     );
   }
 }
