@@ -52,13 +52,10 @@ export default class StateContainer extends React.Component<Props, State> {
 
     try {
       const state:PersistedState = JSON.parse(jsonSate!, (k, v) => {
-        console.log('revive', k, v)
         if (v._isTime) {
-          console.log('returning Time')
           return Time.fromJSON(v)
         }
         if (v._isDay) {
-          console.log('returning Day')
           return Day.fromJSON(v)
         }
         return v
@@ -84,53 +81,20 @@ export default class StateContainer extends React.Component<Props, State> {
   }
 
   private handlers = {
-    load: () => {
-      this.loadState()
-    },
-
-    save: () => {
-      this.saveState()
-    },
-
-    reset: () => {
-      this.setState(createDefaultState())
-    },
-
-    focusUp: () => {
-      this.setState(focusUp)
-    },
-
-    focusDown: () => {
-      this.setState(focusDown)
-    },
-
+    load: () => { this.loadState() },
+    save: () => { this.saveState() },
+    reset: () => { this.setState(createDefaultState()) },
+    focusUp: () => { this.setState(focusUp) },
+    focusDown: () => { this.setState(focusDown) },
     focusSlice: (slice: ISlice, field: 'time'|'title') => {
       this.setState(focusSlice(slice, field))
     },
-
-    focusTodo: (todo: ITodoItem) => {
-      this.setState(focusTodo(todo))
-    },
-
-    createSliceFromTodo: (todo:ITodoItem) => {
-      this.setState(createSliceFromTodo(todo))
-    },
-
-    changeTodoItem: (todo: ITodoItem) => {
-      this.setState(changeTodoItem(todo))
-    },
-
-    changeSlice: (slice:ISlice) => {
-      this.setState(updateSlice(slice))
-    },
-
-    deleteSlice: (slice:ISlice) => {
-      this.setState(deleteSlice(slice))
-    },
-
-    changeDate: (date:Day) => {
-      this.setState(changeDate(date))
-    }
+    focusTodo: (todo: ITodoItem) => { this.setState(focusTodo(todo)) },
+    createSliceFromTodo: (todo:ITodoItem) => { this.setState(createSliceFromTodo(todo)) },
+    changeTodoItem: (todo: ITodoItem) => { this.setState(changeTodoItem(todo)) },
+    changeSlice: (slice:ISlice) => { this.setState(updateSlice(slice)) },
+    deleteSlice: (slice:ISlice) => { this.setState(deleteSlice(slice)) },
+    changeDate: (date:Day) => { this.setState(changeDate(date)) }
   }
 
 }
