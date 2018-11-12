@@ -14,6 +14,7 @@ interface Props {
   onKeyDown: (e:React.KeyboardEvent<HTMLInputElement>) => void
   onFocus: (e:React.FocusEvent<HTMLInputElement>) => void
   addTag: (s:string) => void
+  outline?: boolean
 }
 
 export default class TagSuggest extends React.Component<Props> {
@@ -46,9 +47,9 @@ export default class TagSuggest extends React.Component<Props> {
     )
   }
 
-  renderInput(props:any) {
+  renderInput = (props:any) => {
     const {ref, ...other} = props
-    return <Input innerRef={ref} {...other}/>
+    return <Input outline={this.props.outline} innerRef={ref} {...other}/>
   }
 
   inputProps = {

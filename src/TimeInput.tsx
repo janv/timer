@@ -10,6 +10,7 @@ interface Props {
   onFocus: () => void
   onChange: (value: Time) => void
   onKeyDown: (e:React.KeyboardEvent<HTMLElement>) => void
+  outline?: boolean
 }
 
 export default class TimeInput extends React.Component<Props, {isoTime:string}> {
@@ -17,6 +18,7 @@ export default class TimeInput extends React.Component<Props, {isoTime:string}> 
 
   render() {
       return <Input
+          outline={this.props.outline}
           width="5em"
           className={css`flex: 0`}
           innerRef={this.inputRef}

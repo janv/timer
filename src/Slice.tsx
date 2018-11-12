@@ -68,6 +68,7 @@ export default class Slice extends React.Component<Props> {
         <Container>
             <Input
               width="300px"
+              outline={this.props.focus != null}
               className={css`flex: 0;`}
               innerRef={this.titleRef}
               value={this.props.slice.title}
@@ -78,6 +79,7 @@ export default class Slice extends React.Component<Props> {
             />
             <Spacer/>
             <TimeInput
+              outline={this.props.focus != null}
               ref={this.timeRef}
               time={this.props.slice.end}
               onKeyDown={this.handleKeyDownTime}
@@ -86,6 +88,7 @@ export default class Slice extends React.Component<Props> {
             />
             <Spacer/>
             <TagInput
+              outline={this.props.focus != null}
               tags={this.props.slice.tags}
               onChange={this.handleChangeTags}
               onFocus={this.handleFocusTags}

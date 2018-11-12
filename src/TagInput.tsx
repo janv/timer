@@ -41,6 +41,7 @@ type Props = {
   onFocus: () => void
   onChange: (tags: string[]) => void
   onKeyDown: (e:React.KeyboardEvent<HTMLElement>) => void
+  outline?: boolean
 }
 
 export default class TagInput extends React.Component<Props> {
@@ -82,6 +83,7 @@ export default class TagInput extends React.Component<Props> {
 
   renderInput = (props:RenderInputProps) => {
     return <TagSuggest
+      outline={this.props.outline}
       tags={SUGGESTIONS}
       value={props.value}
       onChange={props.onChange}
